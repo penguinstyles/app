@@ -1867,7 +1867,7 @@ class Wikia {
 	}
 
 	public static function onWikiaSkinTopScripts( &$vars, &$scripts, Skin $skin ) {
-		global $wgWikiDirectedAtChildrenByFounder, $wgServicesExternalDomain;
+		global $wgWikiDirectedAtChildrenByFounder;
 
 		if ( !empty( $wgWikiDirectedAtChildrenByFounder ) ) {
 			$vars['wgWikiDirectedAtChildrenByFounder'] = $wgWikiDirectedAtChildrenByFounder;
@@ -1876,8 +1876,6 @@ class Wikia {
 		if ( self::isUsingSafeJs() ) {
 			$vars['wgUseSiteJs'] = true;
 		}
-
-		vars['wgServicesExternalDomain'] = $wgServicesExternalDomain;
 
 		return true;
 	}
