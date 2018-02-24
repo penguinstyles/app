@@ -432,18 +432,6 @@ $wgHooks['AfterHttpRequest'][] = 'Wikia\\Tracer\\WikiaTracer::onAfterHttpRequest
 $wgAutoloadClasses['Wikia\\Memcached\\MemcachedStats'] = "$IP/includes/wikia/memcached/MemcachedStats.class.php";
 $wgHooks['RestInPeace'][] = 'Wikia\\Memcached\\MemcachedStats::onRestInPeace';
 
-# list of groups for wfDebugLog calls that will be logged using WikiaLogger
-# @see PLATFORM-424
-$wgDebugLogGroups = [
-	'ExternalStorage' => true,
-	'ExternalStoreDB' => true,
-	'MessageCache' => true,
-	'poolcounter' => true,  // errors from PoolCounterWork
-	'replication' => true,  // replication errros / excessive lags
-	'squid' => true,        // timeouts and errors from SquidPurgeClient
-	'createwiki' => true,   // CreateWiki process
-];
-
 // Register \Wikia\Sass namespace
 spl_autoload_register( function( $class ) {
 	if ( strpos( $class, 'Wikia\\Sass\\' ) !== false ) {
@@ -554,7 +542,6 @@ $wgAPIModules[ "awcreminder"       ] = "WikiaApiCreatorReminderEmail";
 $wgAPIModules[ "fetchblob"         ] = "ApiFetchBlob";
 $wgAPIModules[ "licenses"          ] = "ApiLicenses";
 
-$wgUseAjax                = true;
 $wgValidateUserName       = true;
 $wgAjaxAutoCompleteSearch = true;
 
@@ -600,49 +587,6 @@ include_once( "$IP/extensions/wikia/QuickTools/QuickTools.setup.php" );
 include_once( "$IP/extensions/wikia/TOC/TOC.setup.php" );
 include_once( "$IP/extensions/wikia/SEOTweaks/SEOTweaks.setup.php" );
 include_once( "$IP/extensions/wikia/StaticUserPages/StaticUserPages.setup.php" );
-
-/**
- * @name $wgSkipSkins
- *
- * NOTE: a few wikis may have local override for this var,
- * you need to modify those by hand.
- * A SELECT on city_variables will get you a list.
- */
-$wgSkipSkins = array(
-		'armchairgm',
-		'cars',
-		'corporate',
-		'corporatebase',
-		'corporatehome',
-		'curse',
-		'entertainment',
-		'food',
-		'games',
-		'gwmonobook',
-		'halo',
-		'halogamespot',
-		'health',
-		'home',
-		'law',
-		'local',
-		'memalpha',
-		'music',
-		'politics',
-		'psn',
-		'restaurants',
-		'searchwikia',
-		'search',
-		'test',
-		'uncyclopedia',
-		'lostbook',
-		'quartz',
-		'monaco_old',
-		'smartphone',
-		'efmonaco',
-		'answers',
-		'campfire',
-		'wikiamobile',
-);
 
 /**
  * @name $wgBiggestCategoriesBlacklist
@@ -805,11 +749,6 @@ $wgUseJQueryFromCDN = true;
  */
 $wgWikiaCombinedPrefix = "index.php?action=ajax&rs=WikiaAssets::combined&";
 
-/**
- * Override MW default enable of EE
- */
-$wgUseExternalEditor = false;
-
 
 /**
  * libmemcached related stuff
@@ -918,7 +857,6 @@ $wgABTests = array();
 /**
  * Memcached client timeouts
  */
-$wgMemCachedTimeout = 500000; // stream timeout in microseconds
 $wgMemCachedConnectionTimeout = 0.5; // connection timeout in seconds
 
 
@@ -929,12 +867,6 @@ $wgAssetsManagerQuery = '/__am/%4$d/%1$s/%3$s/%2$s';
  * debug level for memcached
  */
 $wgMemCachedDebugLevel = 1;
-
-
-/**
- * We keep this enabled to support monobook
- **/
-$wgEnableMWSuggest = true;
 
 /**
  * enable extension to output OpenGraph meta tags so that facebook sharing
@@ -972,11 +904,6 @@ $wgEnableNirvanaAPI = true;
  * Array of disabled article actions which will fallback to "view" action (BugId:9964)
  */
 $wgDisabledActionsWithViewFallback = array();
-
-/**
- * Disable the slow updating of MySQL search index. We use Lucene/Solr.
- */
-$wgDisableSearchUpdate = true;
 
 /**
  * New search code needs a default type to avoid falling back to SearchMySQL.
@@ -1023,12 +950,6 @@ $wgPasswordSenderName = Wikia::USER;
 $wgResourceLoaderAssetsSkinMapping = [
 	'oasis' => 'wikia', // in Oasis we use Wikia.js (and Wikia.css) instead of Oasis.js (Oasis.css)
 ];
-
-/**
- * @see https://wikia.fogbugz.com/default.asp?36946
- * core mediawiki feature variable
- */
-$wgArticleCountMethod = "any";
 
 /**
  * Javascript minifier used by ResourceLoader
@@ -1580,27 +1501,13 @@ $wgOasisResponsive = true;
  */
 $wgDisableReportTime = true;
 
-/**
- * @name $wgInvalidateCacheOnLocalSettingsChange
- * Setting this to true will invalidate all cached pages whenever LocalSettings.php is changed.
- */
-$wgInvalidateCacheOnLocalSettingsChange = false;
+
 
 /**
  * Set to true to enable user-to-user e-mail.
  * This can potentially be abused, as it's hard to track.
  */
 $wgEnableUserEmail = false;
-
-/**
- * Enables ETag globally
- *
- * @see http://www.mediawiki.org/wiki/Manual:$wgUseETag
- *
- * $wgUseETag is a core MW variable initialized in includes/DefaultSettings.php
- */
-$wgUseETag = true;
-
 /**
  * Restrictions for some api methods
  */
