@@ -17,20 +17,6 @@ $wgExtensionCredits['other'][] = [
 ];
 
 /**
- * wfUnserializeErrorHandler
- *
- * @author Emil Podlaszewski <emil@wikia-inc.com>
- */
-function wfUnserializeHandler( $errno, $errstr ) {
-        global $_variable_key, $_variable_value;
-        Wikia::log(
-            __FUNCTION__,
-            $_SERVER['SERVER_NAME'] ?? '',
-            "($_variable_key=$_variable_value): $errno, $errstr"
-        );
-}
-
-/**
  * define hooks for WikiFactory here
  */
 $wgHooks[ "ArticleSaveComplete" ][] = "WikiFactory::updateCityDescription";
@@ -1463,7 +1449,7 @@ class WikiFactory {
 			return false;
 		}
 
-		set_error_handler( "wfUnserializeHandler" );
+		set_error_handler( 'WikiFactory::unserializeHandler' );
 		$_variable_key = "";
 		$_variable_value = "";
 		$data = unserialize( file_get_contents( $file ) );
@@ -3467,4 +3453,18 @@ class WikiFactory {
 		$db->freeResult( $dbResult );
 		return $result;
 	}
+        
+        /**
+         * unserializeErrorHandler
+         *
+         * @author Emil Podlaszewski <emil@wikia-inc.com>
+         */
+        static public function unserializeHandler( $errno, $errstr ) {
+                global $_variable_key, $_variable_value;
+                Wikia::log(
+                    __FUNCTION__,
+                    $_SERVER['SERVER_NAME'] ?? '',
+                    "($_variable_key=$_variable_value): $errno, $errstr"
+                );
+        }
 };
